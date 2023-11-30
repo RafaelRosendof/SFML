@@ -32,9 +32,9 @@ void Hero::update(float dt){
 	m_sprite.setPosition(m_position);
 
 
-	if (m_position.y >= 768 * 0.75) {
+	if (m_position.y >= 800 * 0.75) {
 
-		m_position.y = 768 * 0.75;
+		m_position.y = 800 * 0.75;
 		m_velocity = 0;
 		m_grounded = true;
 		jumpCount = 0;

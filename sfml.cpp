@@ -179,36 +179,36 @@ int main() {
 }
 */
 #include "includes.h"
-#include "Hero.h"
+#include "Hero.h"       //includes dos caracteres
 #include "Enemy.h"
 #include "Rocket.h"
 
 
-sf::Vector2f viewSize(1024, 768);
-sf::VideoMode vm(viewSize.x, viewSize.y);
-sf::RenderWindow window(vm, "Hello SFML Game !!!", sf::Style::Default);
+sf::Vector2f viewSize(1600, 800);   //tamanho da janela
+sf::VideoMode vm(viewSize.x, viewSize.y);  //estilo de reprodução
+sf::RenderWindow window(vm, "Hello SFML Game !!!", sf::Style::Default);  //titulo da página
 
-void spawnEnemy();
-void shoot();
+void spawnEnemy();  //ativando a função presente no enemy.cpp
+void shoot();  //ativando a função de atirar
 
 bool checkCollision(sf::Sprite sprite1, sf::Sprite sprite2);
+//chacando colisão
 
+sf::Vector2f playerPosition;   //ativando a posição do boneco
+bool playerMoving = false;  //movimento do boneco 
 
-sf::Vector2f playerPosition;
-bool playerMoving = false;
+sf::Texture skyTexture; // textura do ceu 
+sf::Sprite skySprite; //ativação da textura
 
-sf::Texture skyTexture;
-sf::Sprite skySprite;
-
-sf::Texture bgTexture;
+sf::Texture bgTexture;  //mesma coisa de cima, sendo que para o cenário
 sf::Sprite bgSprite;
 
-Hero hero;
+Hero hero;   //iniciando o heroi
 
-std::vector<Enemy*> enemies;
-std::vector<Rocket*> rockets;
+std::vector<Enemy*> enemies;  //vetor de inimigos
+std::vector<Rocket*> rockets;  //vetor de projéteis
 
-float currentTime;
+float currentTime;   //tempo do jogo
 float prevTime = 0.0f;
 
 
@@ -219,7 +219,7 @@ void init() {
 	skyTexture.loadFromFile("Assets/graphics/sky.png");
 	skySprite.setTexture(skyTexture);
 
-	bgTexture.loadFromFile("Assets/graphics/bg.png");
+	bgTexture.loadFromFile("/home/rafael/graphs/SFML/fundo.jpg");
 	bgSprite.setTexture(bgTexture);
 
 	hero.init("Assets/graphics/hero.png", sf::Vector2f(viewSize.x * 0.25f, viewSize.y * 0.5f), 200);
