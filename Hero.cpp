@@ -1,13 +1,13 @@
 #include "includes.h"
 #include "Hero.h"
 
-Hero::Hero(){}
+Hero::Hero(){}  //constructor 
 
 
-Hero::~Hero(){}
+Hero::~Hero(){} //destructor
 
 void Hero::init(std::string textureName, sf::Vector2f position, float mass){
-
+	//iniciando o heroi, função init
 	m_position = position;
 	m_mass = mass;
 
