@@ -11,23 +11,23 @@ void Enemy::init(std::string textureName, sf::Vector2f position, float _speed) {
 	m_position = position;
 
 	// Load a Texture
-	m_texture.loadFromFile("/home/rafael/graphs/jf_teste.png");
+	m_texture.loadFromFile("/home/rafaelrosendo/SFML/tetola.webp");
 
 	// Create Sprite and Attach a Texture
-	m_sprite.setTexture(m_texture);
+	m_sprite.setTexture(m_texture);    //todas as propriedades e funcionalidades do vilão 
 	m_sprite.setPosition(m_position);
-	m_sprite.setOrigin(m_texture.getSize().x / 2, m_texture.getSize().y / 2);
+	m_sprite.setOrigin(m_texture.getSize().x / 2, m_texture.getSize().y / 2); //onde ele vai espawnar 
 
 }
 
 void Enemy::update(float dt) {
 
-	m_sprite.move(m_speed * dt, 0);
+	m_sprite.move(m_speed * dt, 0); //update
 
 }
 
 
-sf::Sprite Enemy::getSprite() {
+sf::Sprite Enemy::getSprite() {  //Sprite é para executar a textura ou imagem
 
 	return m_sprite;
 }

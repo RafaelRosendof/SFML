@@ -203,7 +203,7 @@ void update(float dt) {
 
 void draw() {   //funçã o para inicializar os desenhos 
 
-	window.draw(skySprite);
+	window.draw(skySprite);  //podemos usar como exemplo do polimorfismo 
 	window.draw(bgSprite);
 
 	window.draw(hero.getSprite());
@@ -224,12 +224,13 @@ void draw() {   //funçã o para inicializar os desenhos
 
 }
 
-void escreve() {
+void escreve() { //funçã o para escrever os pontos em um .txt
     std::ofstream outputFile("score.txt");  
 
     if (outputFile.is_open()) {
         // Write the score to the file
         outputFile << "Score: " << score << std::endl;
+		outputFile << "\ntime:" << currentTime <<std::endl;
         
         // Close the file
         outputFile.close();
@@ -282,7 +283,7 @@ void spawnEnemy() {   //função para spawnar o inimigo
 
 	float speed;  //velocidade 
 
-	switch (randLoc) {
+	switch (randLoc) { //aqui colocamos a velocidade e o local que eu quero que ele apareça 
 	case 0: enemyPos = sf::Vector2f(viewSize.x, viewSize.y * 0.75f); speed = -490; break;
 	case 1: enemyPos = sf::Vector2f(viewSize.x, viewSize.y * 0.60f); speed = -650; break;
 	case 2: enemyPos = sf::Vector2f(viewSize.x, viewSize.y * 0.40f); speed = -750; break;

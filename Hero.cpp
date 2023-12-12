@@ -14,7 +14,7 @@ void Hero::init(std::string textureName, sf::Vector2f position, float mass){
 	m_grounded = false;
 	
 	// Load a Texture
-	m_texture.loadFromFile("/home/rafael/graphs/figas_teste.png");
+	m_texture.loadFromFile("/home/rafaelrosendo/SFML/figas.webp");
 
 	// Create Sprite and Attach a Texture
 	m_sprite.setTexture(m_texture);
@@ -23,11 +23,11 @@ void Hero::init(std::string textureName, sf::Vector2f position, float mass){
 
 }
 
-void Hero::update(float dt){
+void Hero::update(float dt){  //exemplo de herança 
 
-	m_velocity -= m_mass * m_gravity * dt;
+	m_velocity -= m_mass * m_gravity * dt;  //definimos coisas como gravidade
 
-	m_position.y -= m_velocity * dt;
+	m_position.y -= m_velocity * dt; // velocidade no y 
 
 	m_sprite.setPosition(m_position);
 
@@ -42,7 +42,7 @@ void Hero::update(float dt){
 
 }
 
-void Hero::jump(float velocity){
+void Hero::jump(float velocity){  
 
 	if (jumpCount < 2) {
 		jumpCount++;
