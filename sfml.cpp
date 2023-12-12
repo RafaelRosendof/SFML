@@ -1,183 +1,3 @@
-
-#include <SFML/Graphics.hpp>
-#include<iostream>
-#include <vector>
-/*
-sf::Vector2f viewSize(1024,768);
-sf::VideoMode vm(viewSize.x, viewSize.y);
-sf::RenderWindow window (vm, "Fala Figas");
-
-sf::Texture skyTexture;
-sf::Sprite skySprite;
-//sf::bgTexture bgTexture;
-sf::Texture bgTex;
-sf::Sprite bgSprite;
-
-sf::Texture heroTexture;
-sf::Sprite heroSprite;
-
-
-void init(){
-    skyTexture.loadFromFile("/home/rafael/graphs/CPP-Game-Development-By-Example/Chapter03/3.SFMLProject/SFMLProject/Assets/graphics/sky.png");
-    skySprite.setTexture(skyTexture);
-
-    bgTex.loadFromFile("/home/rafael/graphs/CPP-Game-Development-By-Example/Chapter03/3.SFMLProject/SFMLProject/Assets/graphics/bg.png");
-    bgSprite.setTexture(bgTex);
-
-    heroTexture.loadFromFile("/home/rafael/graphs/CPP-Game-Development-By-Example/Chapter03/3.SFMLProject/SFMLProject/Assets/graphics/hero.png");
-    heroSprite.setTexture(heroTexture);
-
-    heroSprite.setPosition(sf::Vector2f(viewSize.x/2 , viewSize.y/2));
-    heroSprite.setOrigin(heroTexture.getSize().x/2 , heroTexture.getSize().y/2);
-}
-
-void draw(){
-    window.draw(skySprite);
-    window.draw(bgSprite);
-    window.draw(heroSprite);
-}
-
-void updateInput(){
-    sf::Event event;
-    while(window.pollEvent(event)){
-
-        if(event.type == sf::Event::KeyPressed){
-
-            if(event.key.code == sf::Keyboard::Right){
-               bool playerMoving = true; // is realy boolean?
-            }
-        }
-
-        if(event.type == sf::Event::KeyReleased){
-            if(event.key.code == sf::Keyboard::Right){
-             bool   playerMoving = false;
-            }
-        }
-
-        if(event.key.code == sf::Keyboard::Escape || event.type == sf::Event::Closed)
-        window.close();
-    }
-}
-
-void update(float dt){
-    if(playerMoving){
-        heroSprite.move(50.0 * dt , 0);
-    }
-}
-
-int main() {
-    // Create a window
-    init();
-
-    while (window.isOpen()) {
-        updateInput();
-
-        //update game
-        sf::Time dt = clock.restart();
-        update(dt.asSeconds());
-
-        window.clear(sf::Color::Blue);
-        draw();
-
-        window.display();
-    }
-
-    return 0;
-}
-
-#include <SFML/Graphics.hpp>
-#include <iostream>
-
-class Game {
-public:
-    Game() : viewSize(1024, 768), window(sf::VideoMode(viewSize.x, viewSize.y), "Fala Figas") {
-        init();
-    }
-
-    void run() {
-        while (window.isOpen()) {
-            updateInput();
-
-            sf::Time dt = clock.restart();
-            update(dt.asSeconds());
-
-            window.clear(sf::Color::Blue);
-            draw();
-
-            window.display();
-        }
-    }
-
-private:
-    sf::Vector2f viewSize;
-    sf::RenderWindow window;
-    sf::Clock clock;
-
-    sf::Texture skyTexture;
-    sf::Sprite skySprite;
-
-    sf::Texture bgTex;
-    sf::Sprite bgSprite;
-
-    sf::Texture heroTexture;
-    sf::Sprite heroSprite;
-
-    bool playerMoving{false};
-
-    void init() {
-        skyTexture.loadFromFile("/home/rafael/graphs/CPP-Game-Development-By-Example/Chapter03/3.SFMLProject/SFMLProject/Assets/graphics/sky.png");
-        skySprite.setTexture(skyTexture);
-
-        bgTex.loadFromFile("/home/rafael/graphs/CPP-Game-Development-By-Example/Chapter03/3.SFMLProject/SFMLProject/Assets/graphics/bg.png");
-        bgSprite.setTexture(bgTex);
-
-        heroTexture.loadFromFile("/home/rafael/graphs/CPP-Game-Development-By-Example/Chapter03/3.SFMLProject/SFMLProject/Assets/graphics/hero.png");
-        heroSprite.setTexture(heroTexture);
-
-        heroSprite.setPosition(sf::Vector2f(viewSize.x / 2, viewSize.y / 2));
-        heroSprite.setOrigin(heroTexture.getSize().x / 2, heroTexture.getSize().y / 2);
-    }
-
-    void draw() {
-        window.draw(skySprite);
-        window.draw(bgSprite);
-        window.draw(heroSprite);
-    }
-
-    void updateInput() {
-        sf::Event event;
-        while (window.pollEvent(event)) {
-            if (event.type == sf::Event::KeyPressed) {
-                if (event.key.code == sf::Keyboard::Right) {
-                    playerMoving = true;
-                }
-            }
-
-            if (event.type == sf::Event::KeyReleased) {
-                if (event.key.code == sf::Keyboard::Right) {
-                    playerMoving = false;
-                }
-            }
-
-            if (event.key.code == sf::Keyboard::Escape || event.type == sf::Event::Closed)
-                window.close();
-        }
-    }
-
-    void update(float dt) {
-        if (playerMoving) {
-            heroSprite.move(50.0 * dt, 0);
-        }
-    }
-};
-
-int main() {
-    Game game;
-    game.run();
-
-    return 0;
-}
-*/
 #include "includes.h"
 #include "Hero.h"       //includes dos caracteres
 #include "Enemy.h"
@@ -193,6 +13,8 @@ void shoot();  //ativando a função de atirar
 
 bool checkCollision(sf::Sprite sprite1, sf::Sprite sprite2);
 //chacando colisão
+
+void reset();
 
 sf::Vector2f playerPosition;   //ativando a posição do boneco
 bool playerMoving = false;  //movimento do boneco 
@@ -212,6 +34,18 @@ float currentTime;   //tempo do jogo
 float prevTime = 0.0f;
 
 
+int score = 0;
+bool gameover = true;
+
+// Text
+
+sf::Font headingFont;
+sf::Font scoreFont;
+
+sf::Text headingText;
+sf::Text scoreText;
+sf::Text tutorialText;
+
 
 void init() {
 
@@ -219,21 +53,37 @@ void init() {
 	skyTexture.loadFromFile("Assets/graphics/sky.png");
 	skySprite.setTexture(skyTexture);
 
-	bgTexture.loadFromFile("/home/rafael/graphs/SFML/fundo.jpg");
+//	bgSprite.setTexture(bgTexture);
+//	headingFont.loadFromFile("/home/rafael/graphs/CPP-Game-Development-By-Example/Chapter05/5.SFMLProject/SFMLProject/Assets/fonts/SnackerComic.ttf");
+
+	scoreFont.loadFromFile("/home/rafael/graphs/CPP-Game-Development-By-Example/Chapter05/5.SFMLProject/SFMLProject/Assets/fonts/arial.ttf");
+
+	scoreText.setFont(scoreFont);
+	scoreText.setString("Score: 0");
+	scoreText.setCharacterSize(45);
+	scoreText.setFillColor(sf::Color::Red);
+
+	sf::FloatRect scorebounds = scoreText.getLocalBounds();
+	scoreText.setOrigin(scorebounds.width / 2, scorebounds.height / 2);
+	scoreText.setPosition(sf::Vector2f(viewSize.x * 0.5f, viewSize.y * 0.10f));
+
+
+
+	bgTexture.loadFromFile("/home/rafael/graphs/SFML/fundo.jpg");  
 	bgSprite.setTexture(bgTexture);
-
+    //textura e fundo
 	hero.init("Assets/graphics/hero.png", sf::Vector2f(viewSize.x * 0.25f, viewSize.y * 0.5f), 200);
-
+    //inicializador do heroi 
 	srand((int)time(0));
 
 }
 
 
 void updateInput() {
-
+     //aqui é a parte que é lido o teclado do jogo 
 	sf::Event event;
 
-	// while there are pending events...
+	// while{ enquanto tiver eventos... }
 	while (window.pollEvent(event)) {
 
 		if (event.type == sf::Event::KeyPressed) {
@@ -245,14 +95,17 @@ void updateInput() {
 			}
 
 			if (event.key.code == sf::Keyboard::Down) {
-
+				if(gameover){
+					gameover = false;
+					reset();
+				}
 				shoot();
 			}
 
 		}
 
 		if (event.key.code == sf::Keyboard::Escape || event.type == sf::Event::Closed)
-			window.close();
+			window.close();  //presiona ESC e sai do jogo
 
 	}
 
@@ -261,14 +114,14 @@ void updateInput() {
 
 void update(float dt) {
 
-	hero.update(dt);
+	hero.update(dt);   //update do tempo
 
 	currentTime += dt;
 
-	// Spawn Enemies
+	// aprarição de inimigos 
 
 	if (currentTime >= (prevTime + 1.125f)) {
-
+         //atualizar o tempo do jogo
 		spawnEnemy();
 
 		prevTime = currentTime;
@@ -281,25 +134,28 @@ void update(float dt) {
 
 		Enemy* enemy = enemies[i];
 
-		enemy->update(dt);
+		enemy->update(dt);   //upando os inimigos 
 
 		if (enemy->getSprite().getPosition().x < 0) {
 
 			enemies.erase(enemies.begin() + i);
 			delete(enemy);
 
+			gameover = true;
+
 		}
 	}
 
 
 
-	// Update rockets
+	// Update rockets ou foguetes 
 
 	for (int i = 0; i < rockets.size(); i++) {
 
 		Rocket* rocket = rockets[i];
 
-		rocket->update(dt);
+		rocket->update(dt);  // usando o objeto rocket para acessar o membro da classe 
+                            //(*rocket).update(dt); == rocket -> update(dt);
 
 		if (rocket->getSprite().getPosition().x > viewSize.x) {
 
@@ -310,7 +166,7 @@ void update(float dt) {
 
 	}
 
-	// Check collision between Rocket and Enemies
+	// parte que faz o check sobre o choque entra o foguete e o inimigo 
 
 	for (int i = 0; i < rockets.size(); i++) {
 		for (int j = 0; j < enemies.size(); j++) {
@@ -320,6 +176,14 @@ void update(float dt) {
 
 			if (checkCollision(rocket->getSprite(), enemy->getSprite())) {
 
+				score++;
+				std::string finalScore = "Score: " + std::to_string(score);
+
+				scoreText.setString(finalScore);
+
+				sf::FloatRect scorebounds = scoreText.getLocalBounds();
+				scoreText.setOrigin(scorebounds.width / 2, scorebounds.height / 2);
+				scoreText.setPosition(sf::Vector2f(viewSize.x * 0.5f, viewSize.y * 0.10f));
 
 				rockets.erase(rockets.begin() + i);
 				enemies.erase(enemies.begin() + j);
@@ -337,7 +201,7 @@ void update(float dt) {
 
 }
 
-void draw() {
+void draw() {   //funçã o para inicializar os desenhos 
 
 	window.draw(skySprite);
 	window.draw(bgSprite);
@@ -354,7 +218,25 @@ void draw() {
 		window.draw(rocket->getSprite());
 	}
 
+	if (gameover) {
+		window.draw(scoreText);
+	}
 
+}
+
+void escreve() {
+    std::ofstream outputFile("score.txt");  
+
+    if (outputFile.is_open()) {
+        // Write the score to the file
+        outputFile << "Score: " << score << std::endl;
+        
+        // Close the file
+        outputFile.close();
+    } else {
+        
+        std::cerr << "Error: Unable to open the file for writing." << std::endl;
+    }
 }
 
 
@@ -362,65 +244,68 @@ void draw() {
 int main() {
 
 	sf::Clock clock;
-	window.setFramerateLimit(60);
+	window.setFramerateLimit(60);  //parte do main que setamos o fps 
 
 	init();
 
 	while (window.isOpen()) {
 
-		updateInput();
+		updateInput();  //entramos com o input aqui 
 
-		sf::Time dt = clock.restart();
-		update(dt.asSeconds());
+		sf::Time dt = clock.restart();  //cronometro
+		if(!gameover)
+			update(dt.asSeconds());  //setamos as unidades de tempo 
 
 
-		window.clear(sf::Color::Red);
+		window.clear(sf::Color::White); //cor default 
 
-		draw();
+		draw();  //ativa desenho 
 
-		window.display();
-
+		window.display(); //ativa display da janela 
+		
+		escreve();
 	}
+
 
 	return 0;
 }
 
 
-void spawnEnemy() {
+void spawnEnemy() {   //função para spawnar o inimigo 
 
 
 	//printf("spawnEnemy \n");
 
-	int randLoc = rand() % 3;
+	int randLoc = rand() % 3;  //em quais locais ele spawna, e aqui definimos a constancia 
 
 	sf::Vector2f enemyPos;
 
-	float speed;
+	float speed;  //velocidade 
 
 	switch (randLoc) {
-	case 0: enemyPos = sf::Vector2f(viewSize.x, viewSize.y * 0.75f); speed = -400; break;
-	case 1: enemyPos = sf::Vector2f(viewSize.x, viewSize.y * 0.60f); speed = -550; break;
-	case 2: enemyPos = sf::Vector2f(viewSize.x, viewSize.y * 0.40f); speed = -650; break;
-	default: printf("incorrect y value \n"); break;
+	case 0: enemyPos = sf::Vector2f(viewSize.x, viewSize.y * 0.75f); speed = -490; break;
+	case 1: enemyPos = sf::Vector2f(viewSize.x, viewSize.y * 0.60f); speed = -650; break;
+	case 2: enemyPos = sf::Vector2f(viewSize.x, viewSize.y * 0.40f); speed = -750; break;
+	default: printf("incorrect y value \n"); break; //colocamos onde ele nasce e sua velocidade
 	}
 
 	Enemy* enemy = new Enemy();
-	enemy->init("Assets/graphics/enemy.png", enemyPos, speed);
+	enemy->init("Assets/graphics/enemy.png", enemyPos, speed); //iniciando, aqui meio que tem um construtor
 	enemies.push_back(enemy);
 }
 
 void shoot() {
 
-	Rocket* rocket = new Rocket();
+	Rocket* rocket = new Rocket();  //tiro e muito tiro 
 
-	rocket->init("Assets/graphics/rocket.png", hero.getSprite().getPosition(), 400.0f);
-
+	rocket->init("path da sua imagem", hero.getSprite().getPosition(), 400.0f);//velocidade to foguete
+    //inicializador do rocket
 	rockets.push_back(rocket);
 
 }
 
 
-bool checkCollision(sf::Sprite sprite1, sf::Sprite sprite2) {
+bool checkCollision(sf::Sprite sprite1, sf::Sprite sprite2) {  //função para verificar colisão
 
 	sf::FloatRect shape1 = sprite1.getGlobalBounds();
 	sf::FloatRect shape2 = sprite2.getGlobalBounds();
@@ -437,3 +322,27 @@ bool checkCollision(sf::Sprite sprite1, sf::Sprite sprite2) {
 	}
 
 }
+
+void reset() {
+
+	score = 0;
+	currentTime = 0.0f;
+	prevTime = 0.0;
+
+	scoreText.setString("Score: 0");
+
+	for (Enemy *enemy : enemies) {
+
+		delete(enemy);
+	}
+
+	for (Rocket *rocket : rockets) {
+
+		delete(rocket);
+	}
+
+	enemies.clear();
+	rockets.clear();
+
+}
+

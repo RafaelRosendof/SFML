@@ -2,7 +2,7 @@
 
 echo "Running the Program"
 
-run="g++ sfml.cpp Hero.cpp Enemy.cpp Rocket.cpp -o sfml"
+run="clang++ sfml.cpp Hero.cpp Enemy.cpp Rocket.cpp -o sfml"
 flags="-lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio"
 
 echo "$run $flags"
@@ -27,5 +27,8 @@ if [ "$compile" == "true" ]; then
 else
     echo "Compilando pulou e deu algo a mais"
 fi
+
+
+
 
 
