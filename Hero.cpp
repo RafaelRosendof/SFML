@@ -14,7 +14,7 @@ void Hero::init(std::string textureName, sf::Vector2f position, float mass){
 	m_grounded = false;
 	
 	// Load a Texture
-	m_texture.loadFromFile("/home/rafael/graphs/figas_teste.png");
+	m_texture.loadFromFile("/home/rafael/Downloads/lula_molusco.jpeg");
 
 	// Create Sprite and Attach a Texture
 	m_sprite.setTexture(m_texture);
