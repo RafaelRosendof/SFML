@@ -14,7 +14,6 @@ void shoot();  //ativando a função de atirar
 bool checkCollision(sf::Sprite sprite1, sf::Sprite sprite2);
 //chacando colisão
 
-
 sf::Vector2f playerPosition;   //ativando a posição do boneco
 bool playerMoving = false;  //movimento do boneco 
 
@@ -31,7 +30,6 @@ std::vector<Rocket*> rockets;  //vetor de projéteis
 
 float currentTime;   //tempo do jogo
 float prevTime = 0.0f;
-int score = 0; 
 
 
 
@@ -142,7 +140,7 @@ void update(float dt) {
 			Enemy* enemy = enemies[j];
 
 			if (checkCollision(rocket->getSprite(), enemy->getSprite())) {
-				score++;
+
 
 				rockets.erase(rockets.begin() + i);
 				enemies.erase(enemies.begin() + j);
@@ -180,22 +178,6 @@ void draw() {   //funçã o para inicializar os desenhos
 
 }
 
-void escreve() {
-    std::ofstream outputFile("score.txt");  // Open a file named "score.txt" for writing
-
-    if (outputFile.is_open()) {
-        // Write the score to the file
-        outputFile << "Score: " << score << std::endl;
-		outputFile << "\n tempo: " <<currentTime << std::endl;
-        
-        // Close the file
-        outputFile.close();
-    } else {
-        // Handle error if the file cannot be opened
-        std::cerr << "Error: Unable to open the file for writing." << std::endl;
-    }
-}
-
 
 
 int main() {
@@ -219,8 +201,17 @@ int main() {
 
 		window.display(); //ativa display da janela 
 
-		escreve();
 	}
+
+        for (Enemy* enemy : enemies) {
+            delete enemy;
+            }
+        enemies.clear();
+
+        for (Rocket* rocket : rockets) {
+            delete rocket;
+        }
+        rockets.clear();
 
 	return 0;
 }
@@ -244,14 +235,14 @@ void spawnEnemy() {   //função para spawnar o inimigo
 	default: printf("incorrect y value \n"); break; //colocamos onde ele nasce e sua velocidade
 	}
 
-	Enemy* enemy = new Enemy();
+	Enemy* enemy = new Enemy();  //alocação dinâmica
 	enemy->init("Assets/graphics/enemy.png", enemyPos, speed); //iniciando, aqui meio que tem um construtor
 	enemies.push_back(enemy);
 }
 
 void shoot() {
 
-	Rocket* rocket = new Rocket();  //tiro e muito tiro 
+	Rocket* rocket = new Rocket();  //alocação dinâmica na memória 
 
 	rocket->init("path da sua imagem", hero.getSprite().getPosition(), 400.0f);//velocidade to foguete
     //inicializador do rocket

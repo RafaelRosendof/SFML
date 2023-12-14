@@ -11,7 +11,7 @@ void Enemy::init(std::string textureName, sf::Vector2f position, float _speed) {
 	m_position = position;
 
 	// Load a Texture
-	m_texture.loadFromFile("/home/rafaelrosendo/SFML/tetola.webp");
+	m_texture.loadFromFile("/home/rafael/graphs/jf_teste.png");
 
 	// Create Sprite and Attach a Texture
 	m_sprite.setTexture(m_texture);    //todas as propriedades e funcionalidades do vilão 
