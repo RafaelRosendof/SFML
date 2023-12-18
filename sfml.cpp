@@ -6,14 +6,14 @@
 
 sf::Vector2f viewSize(1600, 800);   //tamanho da janela
 sf::VideoMode vm(viewSize.x, viewSize.y);  //estilo de reprodução
-sf::RenderWindow window(vm, "Hello SFML Game !!!", sf::Style::Default);  //titulo da página
+sf::RenderWindow window(vm, "LP1 projeto", sf::Style::Default);  //titulo da página
 
 void spawnEnemy();  //ativando a função presente no enemy.cpp
 void shoot();  //ativando a função de atirar
 
 bool checkCollision(sf::Sprite sprite1, sf::Sprite sprite2);
 //chacando colisão
-
+void reset();
 
 sf::Vector2f playerPosition;   //ativando a posição do boneco
 bool playerMoving = false;  //movimento do boneco 
@@ -33,6 +33,7 @@ float currentTime;   //tempo do jogo
 float prevTime = 0.0f;
 int score = 0; 
 
+bool gameover = true;
 
 
 void init() {
@@ -41,7 +42,7 @@ void init() {
 	skyTexture.loadFromFile("Assets/graphics/sky.png");
 	skySprite.setTexture(skyTexture);
 
-	bgTexture.loadFromFile("/home/rafael/graphs/SFML/fundo.jpg");  //função para inicializar o jogo
+	bgTexture.loadFromFile("/home/rafael/SFML/fundo.jpg");  //função para inicializar o jogo
 	bgSprite.setTexture(bgTexture);
     //textura e fundo
 	hero.init("Assets/graphics/hero.png", sf::Vector2f(viewSize.x * 0.25f, viewSize.y * 0.5f), 200);
@@ -67,7 +68,10 @@ void updateInput() {
 			}
 
 			if (event.key.code == sf::Keyboard::Down) {
-
+				if(gameover){
+					gameover = false;
+					reset();
+				}
 				shoot();
 			}
 
@@ -109,6 +113,8 @@ void update(float dt) {
 
 			enemies.erase(enemies.begin() + i);
 			delete(enemy);
+
+			gameover = true;
 
 		}
 	}
@@ -210,7 +216,8 @@ int main() {
 		updateInput();  //entramos com o input aqui 
 
 		sf::Time dt = clock.restart();  //cronometro
-		update(dt.asSeconds());  //setamos as unidades de tempo 
+		if(!gameover)
+			update(dt.asSeconds());  //setamos as unidades de tempo 
 
 
 		window.clear(sf::Color::White); //cor default 
@@ -244,7 +251,7 @@ void spawnEnemy() {   //função para spawnar o inimigo
 	default: printf("incorrect y value \n"); break; //colocamos onde ele nasce e sua velocidade
 	}
 
-	Enemy* enemy = new Enemy();
+	Enemy* enemy = new Enemy(); ////ALOCAÇÃO DINÂMICA
 	enemy->init("Assets/graphics/enemy.png", enemyPos, speed); //iniciando, aqui meio que tem um construtor
 	enemies.push_back(enemy);
 }
@@ -275,5 +282,28 @@ bool checkCollision(sf::Sprite sprite1, sf::Sprite sprite2) {  //função para v
 		return false;   //aqui é a função que verifica a colisão
 
 	}
+
+}
+
+void reset() {
+
+	score = 0;
+	currentTime = 0.0f;
+	prevTime = 0.0;
+
+	//scoreText.setString("Score: 0");
+
+	for (Enemy *enemy : enemies) {
+
+		delete(enemy);
+	}
+
+	for (Rocket *rocket : rockets) {
+
+		delete(rocket);
+	}
+
+	enemies.clear();
+	rockets.clear();
 
 }

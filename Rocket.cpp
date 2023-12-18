@@ -14,7 +14,7 @@ void Rocket::init(std::string textureName, sf::Vector2f position, float _speed){
 	m_position = position;
 
 	// Load a Texture
-	m_texture.loadFromFile("/home/rafael/graphs/CPP-Game-Development-By-Example/Chapter05/5.SFMLProject/SFMLProject/Assets/graphics/rocket.png");
+	m_texture.loadFromFile("/home/rafael/Downloads/missel (1).png");
 
 	// Create Sprite and Attach a Texture
 	m_sprite.setTexture(m_texture);
